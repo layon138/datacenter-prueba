@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RechargeService } from '../../services/recharge.service';
 import { Recharge } from '../../interfaces/recharge.model';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   selector: 'app-list-recharges',
   standalone: true,
   imports: [CommonModule,ReactiveFormsModule],
+ // changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './list-recharges.component.html',
   styleUrl: './list-recharges.component.css'
 })
@@ -36,13 +37,17 @@ export class ListRechargesComponent {
   ]
   constructor(private rechargeService:RechargeService){
     this.filterForm = new FormGroup({
-      seller: new FormControl('', []),
+      seller: new FormControl('', ),
       operator: new FormControl('', )
     });
   }
 
   async ngOnInit(): Promise<void> {
-    await this.loadData()
+   this.rechargeService.currentMessage.subscribe( async message => {
+        await this.filterAPi()
+    }
+
+      );
   }
 
   showDropdown(){

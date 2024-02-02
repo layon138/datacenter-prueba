@@ -20,7 +20,7 @@ public class RechargeController {
     @CrossOrigin
     @GetMapping(value="/recharges",produces = "application/json")
     public List<Recharge> getRecharges(@RequestParam String seller,@RequestParam String operator) {
-        return  productService.getAllRecharges();
+        return  productService.getAllRecharges(operator,seller);
     }
 
     @PostMapping(value = "/recharge")

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RechargeService } from '../../services/recharge.service';
 import { Recharge } from '../../interfaces/recharge.model';
@@ -9,10 +9,11 @@ import { v4 as uuidv4 } from 'uuid';
   selector: 'app-add-recharge',
   standalone: true,
   imports: [ReactiveFormsModule,CommonModule],
+
   templateUrl: './add-recharge.component.html',
   styleUrl: './add-recharge.component.css'
 })
-export class AddRechargeComponent {
+export class AddRechargeComponent{
   rechargeForm: FormGroup;
   public showDropDawn=false
   public listOperadtors=[
@@ -33,13 +34,16 @@ export class AddRechargeComponent {
       value:"Comcel",
     }
   ]
-  constructor(private rechargeService:RechargeService) {
+  constructor(private rechargeService:RechargeService,private cdr: ChangeDetectorRef) {
     this.rechargeForm = new FormGroup({
       seller: new FormControl('', [Validators.required]),
       amont: new FormControl('',[ Validators.required,  Validators.pattern("^[0-9]*$"),  Validators.minLength(4),]),
       operator: new FormControl('', Validators.required)
     });
   }
+
+  
+
 
   showDropdown(){
     this.showDropDawn=!this.showDropDawn
@@ -58,8 +62,8 @@ export class AddRechargeComponent {
           ...this.rechargeForm.value ,
           id:uuidv4()
         } 
-        console.log(newRecharge)
-       const resp= await this.rechargeService.postNewRecharge(newRecharge);
+         await this.rechargeService.postNewRecharge(newRecharge);
+         this.rechargeService.changeMessage("mama")
       }
     
     }
