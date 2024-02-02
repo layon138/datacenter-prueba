@@ -1,0 +1,63 @@
+
+
+
+<div class="p-5" >
+    <div >
+        <form class="space-y-6" [formGroup]="filterForm">
+            <div class="flex justify-around align-baseline">
+                <div>
+                    <label for="seller" class="block text-sm font-medium leading-6 text-secondary">Vendedor</label>
+                    <div class="mt-2">
+                      <input formControlName="seller"  id="seller" name="seller" type="text" autocomplete="seller" required class="block w-full rounded-md border-0 px-1.5 py-1.5 text-secondary shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                    <div class="text-sm font-medium text-likes pt-1" *ngIf="filterForm.get('seller')?.hasError('seller') || filterForm.get('seller')?.hasError('required') &&     this.filterForm.get('seller')?.touched"  >
+                     Escriba el nombre del vendedor
+                  </div>
+                  </div>
+              <div>
+                <button (click)="showDropdown()" id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white bg-gray hover:bg-blue-800 w-full justify-center focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                    Tipo de operador  <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                       {{  this.filterForm.get('operator')?.value}}
+                    </button>
+                    <div class="text-sm font-medium text-likes pt-1" *ngIf="filterForm.get('operator')?.hasError('required') &&   this.filterForm.get('operator')?.touched"  >
+                      Selecciona un operator
+                  </div>
+                      <!-- Dropdown menu -->
+                      <div id="dropdown" *ngIf="showDropDawn" class="z-10 w-full  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700">
+                          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                            @for (operator of listOperadtors; track operator.value) {
+                              <li >
+                                <a (click)="saveOperator(operator.value)" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{operator.name}}</a>
+                              </li>
+                            } @empty {
+                              Empty list of users
+                            }
+                          </ul>
+                      </div>
+              </div>
+                
+                  <div>
+                    <button (click)="filterAPi()" type="submit" class="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Filtrar</button>
+                  </div>
+            </div>
+       
+        </form>
+    
+      
+      </div>
+    <div>
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+          @for (recharge of listRecharges ; track recharge.id) {
+            <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Valor: {{recharge.amont | currency: 'COP'}}</h5>
+                <p class="font-normal text-gray">Vendedor: {{recharge.seller}}</p>
+                <p class="font-normal text-gray-700 dark:text-gray-400">Operador: {{recharge.operator}}</p>
+                </div>
+          } @empty {
+        No se encuentran ninguna recarga      }
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+       uri: mongodb+srv://layonUser:Trabajo2021+@cluster0.hcmvkap.mongodb.net/?retryWrites=true&w=majority
+       database: licity
